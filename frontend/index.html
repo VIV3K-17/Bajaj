@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BFHL Challenge</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    textarea {
+      width: 300px;
+      height: 150px;
+    }
+
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>BFHL API Tester</h2>
+
+  <textarea id="input">{"data":["A->B","A->C","B->D"]}</textarea><br><br>
+  <button onclick="send()">Submit</button>
+
+  <h3>Response:</h3>
+  <pre id="output"></pre>
+
+  <script>
+    async function send() {
+      const raw = document.getElementById("input").value;
+
+      let parsed;
+      try {
+        parsed = JSON.parse(raw);
+      } catch (e) {
+        alert("Invalid JSON input");
+        return;
+      }
+
+      const res = await fetch("http://localhost:3000/bfhl", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(parsed)
+      });
+
+      const json = await res.json();
+      document.getElementById("output").innerText = JSON.stringify(json, null, 2);
+    }
+  </script>
+</body>
+</html>
