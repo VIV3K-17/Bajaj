@@ -31,6 +31,8 @@
   <pre id="output"></pre>
 
   <script>
+    const API_BASE_URL = "https://vivek-bfhl.onrender.com";
+
     async function send() {
       const raw = document.getElementById("input").value;
 
@@ -42,7 +44,7 @@
         return;
       }
 
-      const res = await fetch("http://localhost:3000/bfhl", {
+      const res = await fetch(`${API_BASE_URL}/bfhl`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

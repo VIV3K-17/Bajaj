@@ -2,7 +2,19 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-app.use(cors());
+const allowedOrigins = ["https://vivek1-bfhl.onrender.com"];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
+  })
+);
 app.use(express.json());
 
 const FULL_NAME = "Vivek Sesetti";
@@ -169,6 +181,8 @@ app.post("/bfhl", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
